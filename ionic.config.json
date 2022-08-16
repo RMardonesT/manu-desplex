@@ -1,0 +1,7 @@
+{
+  "name": "manu-desplex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
