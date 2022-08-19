@@ -126,7 +126,9 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
                 <IonRow>
                     
                         
-                        <IonTitle> Vacaciones </IonTitle>    
+                        <IonTitle> <h3>Vacaciones</h3> </IonTitle>    
+
+                        <IonButton onClick={runAxios}> AXIOS </IonButton>
    
                 </IonRow>
 
@@ -137,8 +139,8 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
                 <thead>
                     <tr>
 
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="col">HOLA</th>
+                        <th scope="col">CHAO</th>
                         
                     </tr>
                 </thead>
@@ -152,8 +154,8 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
                             <tr key={index}>
 
                                 <td>
-                                    <IonRow>
-                                        <IonCol className=' col'>
+                                    
+                                        
                                         
                                         <strong>Dias Habiles </strong>     <br />
                                 
@@ -163,20 +165,20 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
                                         <strong>Estado</strong><br />
                                         <strong>Accion</strong><br />
 
-                                        </IonCol>
+                                        </td>
 
-                                        <IonCol>
+                                        <td>
                                             {value.TOTAL_DIAS_HABILES} <br/>
                                             {value.INICIO} <br />
                                             {value.TERMINO} <br/>
                                             {value.ESTADO}  <br/>
                                             <IoDocumentTextOutline size="25" />  <IoEyeOutline size="25" /> 
 
-                                        </IonCol>
+                                        </td>
                                         
-                                    </IonRow>
+                                    
 
-                                </td>
+                             
                                 
 
                                 
@@ -200,7 +202,7 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
 export default Liquidaciones;
 
 const Container = styled.div`
-    width: 99%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
 

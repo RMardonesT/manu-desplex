@@ -237,7 +237,7 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
 export default Liquidaciones;
 
 const Container = styled.div`
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
 
