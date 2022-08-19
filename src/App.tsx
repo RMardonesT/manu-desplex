@@ -26,6 +26,12 @@ import './theme/variables.css';
 import NavBar from "./components/Navbar"
 import Gray_box from './components/Gray_box';
 import Liquidaciones from './components/Liquidaciones';
+import { Divider, BottomNavigation, BottomNavigationAction, Box } from '@material-ui/core';
+import { IoHomeOutline, IoDocumentTextOutline, IoDuplicateOutline, IoMailUnreadOutline, IoPersonCircleOutline } from 'react-icons/io5';
+import { useState } from 'react';
+import Home from './components/Home';
+
+
 
 
 setupIonicReact();
@@ -38,18 +44,19 @@ const JEISON = {data : [
               { title: "Monto", content: "200.000" }
             ]}
 
-const App: React.FC = () => (
- <>
- <NavBar/>
-<p></p>
-
 
  {/* <Gray_box data = {JEISON.data}/> */}
- <Liquidaciones/>
+const App: React.FC = () => (
+ <IonApp>
 
- 
-
- </>
+    <IonReactRouter>
+      <IonRouterOutlet>
+        <Route exact path="/" component={Home} />      
+      </IonRouterOutlet>
+    </IonReactRouter>
+  </IonApp>
 );
+
+
 
 export default App;

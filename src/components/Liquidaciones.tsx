@@ -1,7 +1,7 @@
 
 import { renderHiddenInput } from '@ionic/core/dist/types/utils/helpers';
 import { IonRow, IonCol, IonItem, IonHeader, IonTitle, IonSelect, IonSelectOption, IonIcon, IonLabel, IonList, IonListHeader, IonContent, IonGrid, IonText, IonSearchbar, IonButton, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 
 
 
@@ -65,14 +65,36 @@ interface Props {
 
 
 const Liquidaciones: React.FC<Props> = ({ }) => {
-    const [searchText, setSearchText] = useState("");
 
+
+    const options = [
+        { value: '2022', label: '2022' },
+        { value: '2021', label: '2021' },
+        { value: '2020', label: '2020' },
+    ];
+
+    const [selectedOption, setSelectedOption] = useState(options[0].value);
     const [data, setData] = useState(data3);
     const [filteredData, setFilteredData] = useState(data);
 
     //TOKEN
     const TOKEN = "SA29ASJAPhs5Yol3ew2esBqjZclgNZcZdiHQIVjZ2wSH9E2ci2OtF0X/I0P8pJ/OITP58EegTtsYevHNUOAy83og84RYGzmoD358Aq/Gnk//sxsAVt4wGKgANvkqgGN8";
 
+
+  
+   /*  useEffect(() => {
+      
+        //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
+        getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
+            setData(responseData.data);
+            console.log(data);
+    
+            //console.log(responseData.data[0].CODIGO_FICHA);  
+    
+        });
+    
+          });
+         */
     function getLiquidaciones(dataIn: any) {
 
         //indica que se trabaja con JSON
@@ -92,115 +114,134 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
     }
 
 
+/*     //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
+    getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
+        setData(responseData.data);
+        console.log(data);
+
+        //console.log(responseData.data[0].CODIGO_FICHA);  
+
+    }); */
+
+
+  
+
+    //FILTRAR POR AÑO
+    const filterData = (anno:string) => {
+
+
+        const filtData = data.filter(function (fecha) {
+            return fecha.PERIODO_FORMAT.split("-")[1] == anno;
+        });
+        
+        setFilteredData(filtData)
+    
+    }
+
+      //SELECCIONAR AÑO PARA FILTRADO
+      const handleChangeSelect = (value:string) => {
+
+            
     //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
     getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
         setData(responseData.data);
-        // console.log(data);       
+        console.log(data);
 
         //console.log(responseData.data[0].CODIGO_FICHA);  
 
     });
 
-
-    //SELECCIONAR AÑO PARA FILTRADO
-    const handleChangeSelect = (e: React.FormEvent<HTMLIonSelectElement>) => {
-        console.log("CHANGED")
+        setSelectedOption(value)   
+        filterData(value)
     }
 
-    //FILTRAR POR AÑO
-    const filterData = () => {
-        
 
-        const filtData =     data.filter(function (fecha) {
-            return fecha.PERIODO_FORMAT.split("-")[1] == "2021";
-        });
 
-        setFilteredData(filtData)
-        
-    
-
-    }
 
     return (
 
-        
-        <IonInfiniteScroll>
-            <IonInfiniteScrollContent>
-            <IonItem>
 
-                <IonRow>
-                    <IonCol>
-                        <IonButton onClick={filterData}> </IonButton>
-                        <IonTitle> Liquidaciones de Sueldo </IonTitle>                        
-                    </IonCol>
+  <Container>
+                <IonItem>
+                
 
-                    <IonCol>
-                        
-                        <IonSelect interface="popover" placeholder="Buscar por año" onChange = {e=> {handleChangeSelect(e)}}>
-                            <IonSelectOption value="apples">2022</IonSelectOption>
-                            <IonSelectOption value="oranges">2021</IonSelectOption>
-                            <IonSelectOption value="bananas">2020</IonSelectOption>
-                            </IonSelect>
+                    <IonRow>
+                        <IonCol>
+
+                        <h3> Liquidaciones de Sueldo </h3>
+                        </IonCol>
+
+
+                        <IonCol>
+
+                        {/*     <IonSelect interface="popover" placeholder="Buscar por año" onChange={e => { handleChangeSelect(e) }}>
+                                <IonSelectOption value="apples">2022</IonSelectOption>
+                                <IonSelectOption value="oranges">2021</IonSelectOption>
+                                <IonSelectOption value="bananas">2020</IonSelectOption>
+                            </IonSelect> */}
                             
-                            
-                    </IonCol>
-                </IonRow>
+                            <select 
+                                className = "select"
+                                value={selectedOption}
+                                onChange={e => handleChangeSelect(e.target.value)}>
+                                {options.map(o => (
+                                    <option key={o.value} value={o.value}>{o.label}</option>
+                                ))}
+
+                                
+                            </select>
+
+
+                        </IonCol>
+                    </IonRow>
 
 
 
-            </IonItem>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
+                </IonItem>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
 
-                        <th scope="col">Periodo</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Procesos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* {data2.map((value, index) => {
-                        return (
-                            <tr key={index}>
-
-                                <td> {value.fecha}</td>
-                                <td>{value.estado}</td>
-                                <td> <IoDocumentTextOutline />  <IoEyeOutline /> </td>
-                            </tr>
-                        );
-                    })}  */}
+                            <th scope="col">Periodo</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Procesos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
 
-                    {filteredData.map((value, index) => {
+                        {filteredData.map((value, index) => {
 
-                        return (
+                            return (
 
-                            <tr key={index}>
+                                <tr key={index}>
 
-                                <td> {value.PERIODO_FORMAT}</td>
-                                <td>{value._ESTADO_FIRMA}</td>
-                                <td> <IoDocumentTextOutline size = "30"/>  <IoEyeOutline size = "30" /> </td>
-                            </tr>
-                        );
-                    })}
+                                    <td> {value.PERIODO_FORMAT}</td>
+                                    <td>{value._ESTADO_FIRMA}</td>
+                                    <td> <IoDocumentTextOutline size="30" />  <IoEyeOutline size="30" /> </td>
+                                </tr>
+                            );
+                        })}
 
 
-                </tbody>
-            </table>
-            </IonInfiniteScrollContent>
-            </IonInfiniteScroll>
-            
+                    </tbody>
+                </table>
+                </Container>
+
     )
 
 
 }
 
 
-
-
 export default Liquidaciones;
 
 const Container = styled.div`
-    background-color: #D9D9D9;
-`
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 
+    .select{
+        margin-right: 10%
+    }
+`
