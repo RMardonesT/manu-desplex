@@ -2,7 +2,7 @@
 import { renderHiddenInput } from '@ionic/core/dist/types/utils/helpers';
 import { IonRow, IonCol, IonItem, IonHeader, IonTitle, IonSelect, IonSelectOption, IonIcon, IonLabel, IonList, IonListHeader, IonContent, IonGrid, IonText, IonSearchbar, IonButton, IonInfiniteScroll, IonInfiniteScrollContent } from '@ionic/react';
 import React, { Component, useEffect, useState } from 'react';
-
+import Select from "react-select";
 
 
 
@@ -73,6 +73,15 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
         { value: '2020', label: '2020' },
     ];
 
+
+
+    const opts = ["2022", "2021", "2020"]
+    const range = (start: number, end: number) => Array.from(Array(end - start + 1).keys()).map(x => x + start);
+    //console.log(range(2020,2022).toString().split(","))
+
+
+    const [ranges, setRanges] = useState(["2022"]);
+    
     const [selectedOption, setSelectedOption] = useState(options[0].value);
     const [data, setData] = useState(data3);
     const [filteredData, setFilteredData] = useState(data);
@@ -81,20 +90,6 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
     const TOKEN = "SA29ASJAPhs5Yol3ew2esBqjZclgNZcZdiHQIVjZ2wSH9E2ci2OtF0X/I0P8pJ/OITP58EegTtsYevHNUOAy83og84RYGzmoD358Aq/Gnk//sxsAVt4wGKgANvkqgGN8";
 
 
-  
-   /*  useEffect(() => {
-      
-        //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
-        getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
-            setData(responseData.data);
-            console.log(data);
-    
-            //console.log(responseData.data[0].CODIGO_FICHA);  
-    
-        });
-    
-          });
-         */
     function getLiquidaciones(dataIn: any) {
 
         //indica que se trabaja con JSON
@@ -114,45 +109,49 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
     }
 
 
-/*     //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
-    getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
-        setData(responseData.data);
-        console.log(data);
+    /*     //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
+        getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
+            setData(responseData.data);
+            console.log(data);
+    
+            //console.log(responseData.data[0].CODIGO_FICHA);  
+    
+        }); */
 
-        //console.log(responseData.data[0].CODIGO_FICHA);  
-
-    }); */
 
 
-  
 
     //FILTRAR POR AÑO
-    const filterData = (anno:string) => {
+    const filterData = (anno: string) => {
 
 
         const filtData = data.filter(function (fecha) {
             return fecha.PERIODO_FORMAT.split("-")[1] == anno;
         });
-        
+
         setFilteredData(filtData)
-    
+
     }
 
-      //SELECCIONAR AÑO PARA FILTRADO
-      const handleChangeSelect = (value:string) => {
+    //SELECCIONAR AÑO PARA FILTRADO
+    const handleChangeSelect = (event: any) => {
 
-            
-    //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
-    getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
-        setData(responseData.data);
-        console.log(data);
+        const min = Math.min(...data.map(o => Number(o.PERIODO_FORMAT.split("-")[1])), 30000);
+        const max = Math.max(...data.map(o => Number(o.PERIODO_FORMAT.split("-")[1])), 0);
+        setRanges(range(min,max).toString().split(","))
 
-        //console.log(responseData.data[0].CODIGO_FICHA);  
+        
+        //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
+        getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
+            setData(responseData.data);
+            console.log(data);
 
-    });
+            //console.log(responseData.data[0].CODIGO_FICHA);  
 
-        setSelectedOption(value)   
-        filterData(value)
+        });
+
+        setSelectedOption(event.value)
+        filterData(event.value)
     }
 
 
@@ -161,72 +160,69 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
     return (
 
 
-  <Container>
-                <IonItem>
-                
+        <Container>
+            
 
-                    <IonRow>
-                        <IonCol>
+
+                <IonRow>
+                    <IonCol>
 
                         <h3> Liquidaciones de Sueldo </h3>
-                        </IonCol>
+                    </IonCol>
 
 
-                        <IonCol>
+                    <IonCol>
 
                         {/*     <IonSelect interface="popover" placeholder="Buscar por año" onChange={e => { handleChangeSelect(e) }}>
                                 <IonSelectOption value="apples">2022</IonSelectOption>
                                 <IonSelectOption value="oranges">2021</IonSelectOption>
                                 <IonSelectOption value="bananas">2020</IonSelectOption>
                             </IonSelect> */}
-                            
-                            <select 
-                                className = "select"
-                                value={selectedOption}
-                                onChange={e => handleChangeSelect(e.target.value)}>
-                                {options.map(o => (
-                                    <option key={o.value} value={o.value}>{o.label}</option>
-                                ))}
 
-                                
-                            </select>
-
-
-                        </IonCol>
-                    </IonRow>
+                        <StyledSelect classNamePrefix="Select"
+                            options={ranges.map( elem => ({label: elem, value: elem}))}
+                            onChange={handleChangeSelect}
+                        />
 
 
 
-                </IonItem>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-
-                            <th scope="col">Periodo</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Procesos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
 
-                        {filteredData.map((value, index) => {
-
-                            return (
-
-                                <tr key={index}>
-
-                                    <td> {value.PERIODO_FORMAT}</td>
-                                    <td>{value._ESTADO_FIRMA}</td>
-                                    <td> <IoDocumentTextOutline size="30" />  <IoEyeOutline size="30" /> </td>
-                                </tr>
-                            );
-                        })}
+                    </IonCol>
+                </IonRow>
 
 
-                    </tbody>
-                </table>
-                </Container>
+
+            
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Periodo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Procesos</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    {filteredData.map((value, index) => {
+
+                        return (
+
+                            <tr key={index}>
+
+                                <td> {value.PERIODO_FORMAT}</td>
+                                <td>{value._ESTADO_FIRMA}</td>
+                                <td> <IoDocumentTextOutline size="30" />  <IoEyeOutline size="30" /> </td>
+                            </tr>
+                        );
+                    })}
+
+
+                </tbody>
+            </table>  
+        </Container>
 
     )
 
@@ -244,4 +240,47 @@ const Container = styled.div`
     .select{
         margin-right: 10%
     }
+
+    .select{
+        height: 30px;
+        width: 100%;
+        border: 1px solid #ff4d4c;
+        cursor: pointer;
+        color: #ff4d4c
+
+       border-color: #ff4d4c
+       
+        
+        
+    }
 `
+
+const StyledSelect = styled(Select)`
+
+width: 100px;
+heigth: 10%;
+  .Select__control {
+    height: 40px;
+    width: 100%;
+    border: 1px solid #ff4d4c;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  .Select__control:hover {
+    border-color: #ff4d4c;
+  }
+
+  .Select__control--is-focused {
+    box-shadow: 0 0 0 1px black;
+    outline: none;
+  }
+
+  .Select__indicator-separator {
+    display: true;
+  }
+
+  .Select__menu {
+    color:#ff4d4c;
+  }
+`;

@@ -6,6 +6,7 @@ import Liquidaciones from './Liquidaciones';
 
 
 import NavBar from "./Navbar"
+import SEL from './sel';
 import Vacaciones from './Vacaciones';
 
 
@@ -41,15 +42,17 @@ const flag = false;
 
 
         
-
-            <Vacaciones/>
-            <Liquidaciones/>
+        <Liquidaciones/>    
+          {/*   <Vacaciones/>
+            <SEL></SEL> */}
+        
+         
       {/*   {flag ? <Liquidaciones/>: <Gray_box data = {JEISON.data}/>}
  */}
 
         
         
-
+{/* 
         <BottomNavigation >
 
           <BottomNavigationAction onClick = {e => {console.log("PRESSED")}}  label="Home" icon= {<IoHomeOutline size = "20" /> } />
@@ -57,7 +60,7 @@ const flag = false;
           <BottomNavigationAction onClick = {e => {console.log("PRESSED")}}  label="Solicitud" icon={<IoDuplicateOutline size = "20" />} />
           <BottomNavigationAction onClick = {e => {console.log("pressed")}}  label="Solicitud" icon={<IoMailUnreadOutline size = "20"/>} />
           <BottomNavigationAction onClick = {e => {console.log("pressed")}}  label="Perfil" icon={<IoPersonCircleOutline size = "20" />} />
-        </BottomNavigation> 
+        </BottomNavigation>  */}
         
         
       </IonContent>
