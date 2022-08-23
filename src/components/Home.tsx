@@ -1,6 +1,7 @@
 import { IonButton, IonContent, IonPage } from '@ionic/react';
 import { Box, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { IoHomeOutline, IoDocumentTextOutline, IoDuplicateOutline, IoMailUnreadOutline, IoPersonCircleOutline } from 'react-icons/io5';
+import Contratos from './Contratos';
 import Gray_box from './Gray_box';
 import Liquidaciones from './Liquidaciones';
 
@@ -40,15 +41,13 @@ const flag = false;
            
            
 
+        
+        
 
+        <Contratos/> 
+        <Liquidaciones/> <Gray_box data = {JEISON.data}/>
         
-        <Liquidaciones/>    
-          {/*   <Vacaciones/>
-            <SEL></SEL> */}
-        
-         
-      {/*   {flag ? <Liquidaciones/>: <Gray_box data = {JEISON.data}/>}
- */}
+ 
 
         
         

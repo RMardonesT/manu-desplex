@@ -81,13 +81,13 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
 
 
     const [ranges, setRanges] = useState(["2022"]);
-    
+
     const [selectedOption, setSelectedOption] = useState(options[0].value);
     const [data, setData] = useState(data3);
     const [filteredData, setFilteredData] = useState(data);
 
     //TOKEN
-    const TOKEN = "SA29ASJAPhs5Yol3ew2esBqjZclgNZcZdiHQIVjZ2wSH9E2ci2OtF0X/I0P8pJ/OITP58EegTtsYevHNUOAy83og84RYGzmoD358Aq/Gnk//sxsAVt4wGKgANvkqgGN8";
+    const TOKEN =  "SA29ASJAPhs5Yol3ew2esBqjZclgNZcZdiHQIVjZ2wSH9E2ci2OtF0X/I0P8pJ/OITP58EegTtsYevHNUOAy84jp0AdS71yK3GiG6hzlSMkNWBwA9wFKyII8y/m1HQp6";
 
 
     function getLiquidaciones(dataIn: any) {
@@ -107,17 +107,6 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
                 console.log(error);
             });
     }
-
-
-    /*     //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
-        getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
-            setData(responseData.data);
-            console.log(data);
-    
-            //console.log(responseData.data[0].CODIGO_FICHA);  
-    
-        }); */
-
 
 
 
@@ -140,13 +129,13 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
         const max = Math.max(...data.map(o => Number(o.PERIODO_FORMAT.split("-")[1])), 0);
         setRanges(range(min,max).toString().split(","))
 
-        
+
         //LLAMADO A LA REQUEST Y GUARDADO DEL A INFORMACINO
         getLiquidaciones({ TOKEN: TOKEN }).then((responseData: any) => {
             setData(responseData.data);
             console.log(data);
 
-            //console.log(responseData.data[0].CODIGO_FICHA);  
+            //console.log(responseData.data[0].CODIGO_FICHA);
 
         });
 
@@ -161,10 +150,7 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
 
 
         <Container>
-            
-
-
-                <IonRow>
+                <IonRow className='Liquidaciones'>
                     <IonCol>
 
                         <h3> Liquidaciones de Sueldo </h3>
@@ -182,6 +168,7 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
                         <StyledSelect classNamePrefix="Select"
                             options={ranges.map( elem => ({label: elem, value: elem}))}
                             onChange={handleChangeSelect}
+
                         />
 
 
@@ -193,7 +180,7 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
 
 
 
-            
+
             <table className="table table-striped">
                 <thead>
                     <tr>
@@ -221,7 +208,7 @@ const Liquidaciones: React.FC<Props> = ({ }) => {
 
 
                 </tbody>
-            </table>  
+            </table>
         </Container>
 
     )
@@ -249,9 +236,9 @@ const Container = styled.div`
         color: #ff4d4c
 
        border-color: #ff4d4c
-       
-        
-        
+
+
+
     }
 `
 
@@ -259,6 +246,9 @@ const StyledSelect = styled(Select)`
 
 width: 100px;
 heigth: 10%;
+menuColor: red;
+
+
   .Select__control {
     height: 40px;
     width: 100%;
@@ -282,5 +272,9 @@ heigth: 10%;
 
   .Select__menu {
     color:#ff4d4c;
+  }
+
+  .single__Value{
+    color: #ff4d4c
   }
 `;
